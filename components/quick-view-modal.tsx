@@ -3,6 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { Product } from "@/lib/data";
+import { useCart } from "@/lib/cart-context";
+import { toast } from "sonner";
 
 interface ModalProps {
   quickViewProduct: Product | null;
@@ -17,7 +19,11 @@ export default function QuickViewModal({
     onCloseModal();
   };
   const [activeImage, setActiveImage] = useState<string | null>(null);
-
+  const { addToCart } = useCart();
+  const handleAddToCart = () => {
+    addToCart(quickViewProduct);
+    toast.success(`${quickViewProduct.name} added to cart!`);
+  };
   useEffect(() => {
     if (quickViewProduct) {
       setActiveImage(quickViewProduct.image);
@@ -126,7 +132,10 @@ export default function QuickViewModal({
                   View Full Details
                 </Link>
 
-                <button className="flex-1 bg-black dark:bg-white dark:text-black text-white rounded-xl py-2 text-sm hover:opacity-90">
+                <button
+                  className="flex-1 bg-black dark:bg-white dark:text-black text-white rounded-xl py-2 text-sm hover:opacity-90"
+                  onClick={handleAddToCart}
+                >
                   Add to Cart
                 </button>
               </div>

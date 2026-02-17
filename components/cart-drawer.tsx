@@ -71,19 +71,15 @@ export default function CartDrawer() {
                 >
                   {/* Cover */}
                   <img
-                    src={
-                      item.coverImage
-                        ? `data:image/jpeg;base64,${item.coverImage}`
-                        : "/placeholder.svg"
-                    }
-                    alt={item.title}
+                    src={item.image ? `${item.image}` : "/placeholder.svg"}
+                    alt={item.name}
                     className="w-16 h-24 object-cover rounded-lg"
                   />
 
                   {/* Details */}
                   <div className="flex-1 flex flex-col justify-between">
                     <div>
-                      <h3 className="font-semibold text-sm">{item.title}</h3>
+                      <h3 className="font-semibold text-sm">{item.name}</h3>
                       <p className="text-muted-foreground text-sm">
                         ${item.price.toFixed(2)}
                       </p>

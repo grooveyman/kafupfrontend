@@ -19,9 +19,9 @@ import Image from "next/image";
 import { useState } from "react";
 import FilterBar from "@/components/filter-bar";
 import QuickViewModal from "@/components/quick-view-modal";
-import { motion, AnimatePresence } from "framer-motion";
 import { Product } from "@/lib/data";
 import Footer from "@/components/footer";
+import Flipcard from "@/components/flip-card";
 
 export default function Page() {
   const { user } = useAuth();
@@ -115,78 +115,11 @@ export default function Page() {
           />
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
             {trendingProducts.map((product) => (
-              <div key={product.id} className="group relative">
-                {/* IMAGE WRAPPER */}
-                <div className="relative aspect-[3/4] rounded-lg overflow-hidden bg-secondary mb-4 flip-box ">
-                  {/* Primary Image */}
-                  <div className="flip-box-inner">
-                    <div className="flip-box-back">
-                      <Image
-                        src={product.gallery?.[0]}
-                        alt={`${product.name} alternate`}
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                    <div className="flip-box-front">
-                      <Image
-                        src={product.image}
-                        alt={product.name}
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Out of stock overlay */}
-                  {!product.inStock && (
-                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center z-10">
-                      <p className="text-white font-display text-lg">
-                        Out of Stock
-                      </p>
-                    </div>
-                  )}
-
-                  {/* QUICK VIEW BUTTON */}
-                  <div className="absolute inset-0  items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 hidden md:flex">
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        openQuickView(product);
-                      }}
-                      className="flex items-center gap-2 bg-white text-black px-4 py-2 rounded-full shadow-md text-sm font-medium hover:scale-105 transition-transform"
-                    >
-                      <Eye size={16} />
-                      Quick View
-                    </button>
-                  </div>
-                </div>
-
-                {/* PRODUCT INFO */}
-                <Link href={`/product/${product.id}`}>
-                  <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">
-                    {product.designerId}
-                  </p>
-
-                  <h3 className="text-sm font-semibold mb-1 group-hover:text-accent transition-colors">
-                    {product.name}
-                  </h3>
-
-                  <p className="text-sm text-muted-foreground mb-2">
-                    ${product.price.toFixed(2)}
-                  </p>
-
-                  {/* Rating */}
-                  <div className="flex items-center gap-2">
-                    <div className="flex text-yellow-400 text-sm">
-                      {"★★★★★"}
-                    </div>
-                    <span className="text-xs text-muted-foreground">
-                      {product.rating} ({product.reviews})
-                    </span>
-                  </div>
-                </Link>
-              </div>
+              <Flipcard
+                key={product.id}
+                product={product}
+                openQuickView={openQuickView}
+              />
             ))}
           </div>
         </div>

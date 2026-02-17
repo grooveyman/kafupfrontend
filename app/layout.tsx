@@ -7,6 +7,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { AuthProvider } from "@/lib/auth-context";
 import { CartProvider } from "@/lib/cart-context";
 import CartDrawer from "@/components/cart-drawer";
+import { Toaster } from "sonner";
 
 const geist = localFont({
   src: "../node_modules/geist/dist/fonts/geist-mono/GeistMono-Regular.woff2",
@@ -44,6 +45,7 @@ export default function RootLayout({
       <body
         className={`${geistMono.className} antialiased bg-background text-foreground`}
       >
+        <Toaster richColors position="top-right" />
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <CartProvider>
             <CartDrawer />

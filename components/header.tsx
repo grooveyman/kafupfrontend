@@ -39,9 +39,9 @@ const linkVariants = {
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
-  const cartItems = useStore((state) => state.items);
-  const cartCount = cartItems.length;
   const { items, isOpen, setIsOpen } = useCart();
+  const cartCount = items.reduce((sum, item) => sum + item.quantity, 0);
+
   const navLinks = [
     // { href: "/designers", label: "Designers" },
     // { href: "/shop", label: "Shop" },
@@ -87,12 +87,18 @@ export function Header() {
               href="/cart"
               className="relative p-2 hover:bg-secondary rounded-lg transition-colors"
             > */}
-            <ShoppingBag className="w-5 h-5" onClick={() => setIsOpen(true)} />
-            {cartCount > 0 && (
-              <span className="absolute top-0 right-0 w-5 h-5 bg-accent text-accent-foreground text-xs rounded-full flex items-center justify-center">
-                {cartCount}
-              </span>
-            )}
+            <div className="relative">
+              {" "}
+              <ShoppingBag
+                className="w-5 h-5 cursor-pointer"
+                onClick={() => setIsOpen(true)}
+              />
+              {cartCount > 0 && (
+                <span className="absolute bottom-3 left-2 w-5 h-5 dark:bg-white bg-accent-foreground text-white dark:text-black text-accent-foreground text-xs rounded-full flex items-center justify-center">
+                  {cartCount}
+                </span>
+              )}
+            </div>
             {/* </Link> */}
 
             {/* Mobile Menu Button */}
