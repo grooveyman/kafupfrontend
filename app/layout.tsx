@@ -21,7 +21,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Vesture - Fashion Designer Marketplace",
+  title: "KafUP - Fashion Designer Marketplace",
   description:
     "Connect with fashion designers and discover unique collections. Shop and sell premium fashion designs.",
   generator: "v0.app",

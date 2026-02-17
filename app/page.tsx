@@ -21,7 +21,7 @@ import FilterBar from "@/components/filter-bar";
 import QuickViewModal from "@/components/quick-view-modal";
 import { motion, AnimatePresence } from "framer-motion";
 import { Product } from "@/lib/data";
-import { ThemeToggle } from "@/components/theme-toggle";
+import Footer from "@/components/footer";
 
 export default function Page() {
   const { user } = useAuth();
@@ -35,8 +35,6 @@ export default function Page() {
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(
     null,
   );
-  const date = new Date();
-  const year = date.getFullYear();
 
   const openQuickView = (product: Product) => {
     setQuickViewProduct(product);
@@ -248,10 +246,10 @@ export default function Page() {
         <div className="max-w-7xl mx-auto">
           <div className="mb-12 flex items-center justify-between">
             <div>
-              <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-2">
+              <h2 className="font-display text-lg md:text-xl font-bold text-foreground mb-2">
                 New Arrivals
               </h2>
-              <p className="font-body text-muted-foreground">
+              <p className="font-body  text-sm text-muted-foreground">
                 Recently added pieces
               </p>
             </div>
@@ -264,7 +262,7 @@ export default function Page() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
             {trendingProducts.map((product) => (
               <Link key={product.id} href={`/product/${product.id}`}>
                 <div className="group">
@@ -295,29 +293,30 @@ export default function Page() {
 
                   {/* Product Info */}
                   <div>
-                    <p className="font-body text-xs text-muted-foreground uppercase tracking-wider mb-1">
-                      {product.designerId}
-                    </p>
-                    <h3 className="font-display text-lg font-bold text-foreground mb-2 group-hover:text-accent transition-colors">
-                      {product.name}
-                    </h3>
-                    <p className="font-body text-sm text-muted-foreground mb-3">
-                      ${product.price.toFixed(2)}
-                    </p>
+                    {/* PRODUCT INFO */}
+                    <Link href={`/product/${product.designerId}`}>
+                      <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">
+                        {product.designerId}
+                      </p>
 
-                    {/* Rating */}
-                    <div className="flex items-center gap-2">
-                      <div className="flex">
-                        {[...Array(5)].map((_, i) => (
-                          <span key={i} className="text-yellow-400 text-sm">
-                            {"★"}
-                          </span>
-                        ))}
+                      <h3 className="text-sm font-semibold mb-1 group-hover:text-accent transition-colors">
+                        {product.name}
+                      </h3>
+
+                      <p className="text-sm text-muted-foreground mb-2">
+                        ${product.price.toFixed(2)}
+                      </p>
+
+                      {/* Rating */}
+                      <div className="flex items-center gap-2">
+                        <div className="flex text-yellow-400 text-sm">
+                          {"★★★★★"}
+                        </div>
+                        <span className="text-xs text-muted-foreground">
+                          {product.rating} ({product.reviews})
+                        </span>
                       </div>
-                      <span className="font-body text-xs text-muted-foreground">
-                        {product.rating} ({product.reviews})
-                      </span>
-                    </div>
+                    </Link>
                   </div>
                 </div>
               </Link>
@@ -326,7 +325,7 @@ export default function Page() {
         </div>
       </section>
       {/* CTA Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8">
+      {/* <section className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-4xl">
           <Card className="p-12 text-center border-border bg-card/50 backdrop-blur">
             <h2 className="text-3xl font-bold mb-4">Ready to Join?</h2>
@@ -349,132 +348,84 @@ export default function Page() {
             </div>
           </Card>
         </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="border-t border-border py-12 px-4 md:px-8">
+      </section> */}
+      {/* Kafup Feature Section */}
+      <section className="py-16 md:py-24 px-4 md:px-8 bg-background">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-            <div>
-              <h3 className="font-display font-bold text-foreground mb-4">
-                KafUP
-              </h3>
-              <p className="font-body text-sm text-muted-foreground">
-                Curated designer fashion from independent artisans
-              </p>
-            </div>
-            <div>
-              <h4 className="font-body font-semibold text-foreground mb-4">
-                Shop
-              </h4>
-              <ul className="space-y-2 font-body text-sm text-muted-foreground">
-                <li>
-                  <a
-                    href="#"
-                    className="hover:text-foreground transition-colors"
-                  >
-                    Designers
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="hover:text-foreground transition-colors"
-                  >
-                    Collections
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="hover:text-foreground transition-colors"
-                  >
-                    New Arrivals
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-body font-semibold text-foreground mb-4">
-                Company
-              </h4>
-              <ul className="space-y-2 font-body text-sm text-muted-foreground">
-                <li>
-                  <a
-                    href="/about"
-                    className="hover:text-foreground transition-colors"
-                  >
-                    About
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/contact"
-                    className="hover:text-foreground transition-colors"
-                  >
-                    Contact
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="hover:text-foreground transition-colors"
-                  >
-                    Sustainability
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-body font-semibold text-foreground mb-4">
-                Customer Service
-              </h4>
-              <ul className="space-y-2 font-body text-sm text-muted-foreground">
-                <li>
-                  <a
-                    href="#"
-                    className="hover:text-foreground transition-colors"
-                  >
-                    Shipping & Returns
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="hover:text-foreground transition-colors"
-                  >
-                    FAQ
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="hover:text-foreground transition-colors"
-                  >
-                    Size Guide
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            {/* Left Side - Brand Story */}
+            <div className="space-y-6">
+              <div>
+                <h2 className="font-display text-xs md:text-lg font-bold text-foreground mb-6 md:mb-8">
+                  Kafup
+                </h2>
+                <p className="font-display text-2xl md:text-4xl lg:text-5xl leading-tight md:leading-[1.1] lg:leading-[1.3] tracking-wide font-bold text-foreground mb-6 md:mb-8">
+                  Dress to Influence, Not to Impress!
+                </p>
+                <p className="font-body text-sm text-muted-foreground">
+                  The ultimate place for your African apparel. Celebrate your
+                  heritage with our premium collection of authentic,
+                  culturally-inspired designs that make a statement.
+                </p>
+              </div>
 
-          <div className="border-t border-border pt-8 flex flex-col md:flex-row items-center justify-between font-body text-sm text-muted-foreground">
-            <p>&copy; {year} KafUP. All rights reserved.</p>
-            <div className="flex gap-6 mt-4 md:mt-0">
-              <a href="#" className="hover:text-foreground transition-colors">
-                Privacy
-              </a>
-              <a href="#" className="hover:text-foreground transition-colors">
-                Terms
-              </a>
-              {/* <a href="#" className="hover:text-foreground transition-colors">
-                Cookies
-              </a> */}
-              <ThemeToggle />
+              <Button
+                asChild
+                size="lg"
+                className="bg-accent hover:bg-accent/90 text-accent-foreground font-body w-fit"
+              >
+                <Link href="/">Shop Kafup Collection</Link>
+              </Button>
+            </div>
+
+            {/* Right Side - Featured Product Card */}
+            <div className="group">
+              <div className="rounded-2xl border-2 border-border overflow-hidden bg-secondary/50 hover:border-accent transition-colors duration-300">
+                {/* Product Image */}
+                <div className="relative h-40 md:h-60 overflow-hidden bg-secondary">
+                  <Image
+                    src="https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=500&h=600&fit=crop"
+                    alt="Kafup Featured Design"
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+
+                {/* Product Details */}
+                <div className="p-6">
+                  <p className="font-body text-xs text-foreground font-normal uppercase tracking-wider mb-2">
+                    Featured Collection
+                  </p>
+                  <h3 className="font-display text-xl font-bold text-foreground mb-3">
+                    Premium African Heritage
+                  </h3>
+                  <p className="font-body text-sm text-muted-foreground mb-4">
+                    Hand-crafted authentic pieces celebrating African culture
+                    and contemporary style.
+                  </p>
+
+                  {/* Price */}
+                  <div className="flex items-center justify-between mb-6 pb-6 border-b border-border">
+                    <span className="font-display text-2xl font-bold text-foreground">
+                      GHS 400.33
+                    </span>
+                  </div>
+
+                  {/* CTA Button */}
+                  <Button
+                    asChild
+                    className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-body"
+                  >
+                    <Link href="/">Shop Now</Link>
+                  </Button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </footer>
+      </section>
+      <Footer />
+
       <QuickViewModal
         quickViewProduct={quickViewProduct}
         onCloseModal={() => setQuickViewProduct(null)}

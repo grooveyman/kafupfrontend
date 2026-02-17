@@ -318,7 +318,7 @@ export const collections: Collection[] = [
     id: "col-2",
     name: "Artisan Heritage",
     designerId: "designer-1",
-    description: "Timeless pieces celebrating traditional craftsmanship",
+    description: "Timeless pieces celebrating traditional ",
     coverImage:
       "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=1200&h=600&fit=crop",
     productIds: ["1", "6"],
@@ -327,7 +327,7 @@ export const collections: Collection[] = [
   {
     id: "col-3",
     name: "Leather Essentials",
-    designerId: "designer-2",
+    designerId: "designer-1",
     description: "Premium leather goods that age beautifully",
     coverImage:
       "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=1200&h=600&fit=crop",
@@ -337,7 +337,7 @@ export const collections: Collection[] = [
   {
     id: "col-4",
     name: "Silk & Textiles",
-    designerId: "designer-4",
+    designerId: "designer-3",
     description: "Luxurious natural fibers with heritage techniques",
     coverImage:
       "https://images.unsplash.com/photo-1551028719-00167b16ebc5?w=1200&h=600&fit=crop",
