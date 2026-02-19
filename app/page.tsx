@@ -2,27 +2,19 @@
 
 import { Header } from "@/components/header";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import Link from "next/link";
-import {
-  ArrowRight,
-  Sparkles,
-  Users,
-  Zap,
-  ChevronRight,
-  Eye,
-} from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import { useAuth } from "@/lib/auth-context";
 import HeroCarousel from "@/components/hero-carousel";
 import { products, designers, collections } from "@/lib/data";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FilterBar from "@/components/filter-bar";
 import QuickViewModal from "@/components/quick-view-modal";
 import { Product } from "@/lib/data";
 import Footer from "@/components/footer";
 import Flipcard from "@/components/flip-card";
-
+import { api } from "@/config/config";
 export default function Page() {
   const { user } = useAuth();
   const featuredDesigners = designers.slice(0, 3);
@@ -39,7 +31,14 @@ export default function Page() {
   const openQuickView = (product: Product) => {
     setQuickViewProduct(product);
   };
+  const fetchProducts = async () => {
+    const res = await api.get(`/designs/popularProducts`, {});
 
+    console.log("Products data:", res.data);
+  };
+  useEffect(() => {
+    fetchProducts();
+  });
   return (
     <main className="min-h-screen flex flex-col bg-gradient-to-br from-background via-background to-secondary/20 ">
       <Header />

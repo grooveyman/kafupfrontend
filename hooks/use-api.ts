@@ -1,0 +1,62 @@
+import {
+  UseMutationOptions,
+  UseQueryOptions,
+  useMutation,
+  useQuery,
+} from "@tanstack/react-query";
+
+const BASE_URL = "https://kafupbackend.vercel.app/api/v1";
+
+//generic fetch function
+async function fetcher<T>(url: string, options?: RequestInit): Promise<T> {
+  console.log(`${BASE_URL}${url}`);
+  const res = await fetch(`${BASE_URL}${url}`, {
+    ...options,
+  });
+
+  if (!res.ok) {
+    throw new Error((await res.text()) || "API request failed");
+  }
+
+  return res.json();
+}
+
+export function useApiQuery<T>(
+  key: string[],
+  url: string,
+  options?: Omit<UseQueryOptions<T>, "queryKey" | "queryFn">,
+) {
+  return useQuery<T>({
+    queryKey: key,
+    queryFn: () => fetcher<T>(url),
+    ...options,
+  });
+}
+
+export function useApiMutation<T>(
+  baseUrl: string,
+  method: "POST" | "PUT" | "DELETE",
+  options?: UseMutationOptions<T, Error, any>,
+) {
+  return useMutation<T, Error, any>({
+    mutationFn: async (body: any) => {
+      let url = baseUrl;
+
+      if (body?.id) {
+        url = `${baseUrl}/${body.id}`;
+      }
+      let fetchOptions: RequestInit;
+      if (body instanceof FormData) {
+        fetchOptions = { method, body };
+      } else {
+        fetchOptions = {
+          method,
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        };
+      }
+      return fetcher<T>(url, fetchOptions);
+    },
+    ...options,
+  });
+}

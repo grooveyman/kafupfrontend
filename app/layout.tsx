@@ -1,13 +1,10 @@
 import React from "react";
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
-
 import "./globals.css";
-import { ThemeProvider } from "@/components/theme-provider";
-import { AuthProvider } from "@/lib/auth-context";
-import { CartProvider } from "@/lib/cart-context";
 import CartDrawer from "@/components/cart-drawer";
 import { Toaster } from "sonner";
+import Providers from "./providers/page";
 
 const geist = localFont({
   src: "../node_modules/geist/dist/fonts/geist-mono/GeistMono-Regular.woff2",
@@ -46,12 +43,10 @@ export default function RootLayout({
         className={`${geistMono.className} antialiased bg-background text-foreground`}
       >
         <Toaster richColors position="top-right" />
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <CartProvider>
-            <CartDrawer />
-            <AuthProvider>{children}</AuthProvider>
-          </CartProvider>
-        </ThemeProvider>
+        <Providers>
+          <CartDrawer />
+          {children}
+        </Providers>
       </body>
     </html>
   );
