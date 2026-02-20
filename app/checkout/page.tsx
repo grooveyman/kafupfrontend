@@ -10,7 +10,6 @@ import Link from "next/link";
 import { ArrowLeft, CheckCircle2 } from "lucide-react";
 import { useState } from "react";
 import Footer from "@/components/footer";
-import PaystackPop from "@paystack/inline-js";
 import { api } from "@/config/config";
 import { toast } from "sonner";
 import { useApiMutation } from "@/hooks/use-api";
@@ -87,28 +86,41 @@ export default function CheckoutPage() {
     e.preventDefault();
 
     const order = {
-      tck_no: "1234567890",
       total: 301,
       quantity: 200,
       customer: {
-        id: "cust_001",
         email: "customer@example.com",
-        firstName: "John",
-        lastName: "Doe",
-        phone: "+233245678901",
-        address: "123 Main Street",
+        fullname: "Kofi Adjoa",
+        phoneNumber: "+233245678901",
+        deliveryAddress: "123 Main Street",
         city: "Accra",
         region: "Greater Accra",
       },
-      cart: [
-        {
-          designId: "design-uuid-123",
-          quantity: 2,
-          size: "M",
-          color: "red",
-          price: 150.5,
-        },
-      ],
+      cart: {
+        quantity: cartQuantity,
+        cartItems: [
+          {
+            id: "e30bbcca-5a86-47b0-aefc-010dbd669833",
+            name: "Some design",
+            previmg: "https://res.cloudinary.com/dzcmadjlq/image/upload/v1702054417/kafup/products/design-uuid-123.png",
+            quantity: 2,
+            size: "M",
+            color: "red",
+            price: 150.5,
+            total: 301,
+            variations: [{
+              color: "red",
+              quantity: 2,
+              size: "L",
+            }],
+            designer:{
+              code: "DES208636",
+              name: "John Doe",
+              profileImg: "https://res.cloudinary.com/dzcmadjlq/image/upload/v1702054417/kafup/designers/designer-uuid-123.png",
+            }
+          },
+        ],
+      }
     };
     console.log(order);
     mutation.mutate(order);
@@ -121,21 +133,29 @@ export default function CheckoutPage() {
     error?: string;
     reference: string;
   }>("/orders/processOrder", "POST", {
-    onSuccess: (data) => {
+    onSuccess: (data: any) => {
       //create payment popup
       console.log("response from order");
       console.log(data);
       if (data.status) {
-        const popup = new PaystackPop();
-        popup.resumeTransaction(data.access_code, {
-          onSuccess: () => {
-            console.log(`payment successful: reference:${data.reference}`);
-            setStep("confirmation");
-          },
-          onCancel: () => {
-            toast.error("Payment cancelled");
-          },
-        });
+        import("@paystack/inline-js")
+          .then((m) => {
+            const PaystackPop = m?.default || m;
+            const popup = new PaystackPop();
+            popup.resumeTransaction(data.access_code, {
+              onSuccess: () => {
+                console.log(`payment successful: reference:${data.reference}`);
+                setStep("confirmation");
+              },
+              onCancel: () => {
+                toast.error("Payment cancelled");
+              },
+            });
+          })
+          .catch((err) => {
+            console.error("Failed to load Paystack library:", err);
+            toast.error("Payment initialization failed");
+          });
       } else {
         toast.error(data.error);
       }
