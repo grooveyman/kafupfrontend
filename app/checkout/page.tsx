@@ -100,7 +100,7 @@ export default function CheckoutPage() {
         quantity: cartQuantity,
         cartItems: [
           {
-            id: "e30bbcca-5a86-47b0-aefc-010dbd669833",
+            id: "baa19c01-f6b6-47c7-98e2-7c6ed82bbbaa",
             name: "Some design",
             previmg: "https://res.cloudinary.com/dzcmadjlq/image/upload/v1702054417/kafup/products/design-uuid-123.png",
             quantity: 2,
